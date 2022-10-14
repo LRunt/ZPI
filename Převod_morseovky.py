@@ -31,7 +31,7 @@ def buttonA_wasPressed():
   lcd.fill(0x000000)
   lcd.print('A short "."', 0, 0, 0xffffff)
   morseovka = morseovka + "."
-  lcd.print(morseovka, 0, 10, 0xffffff)
+  lcd.print(morseovka, 0, 20, 0xffffff)
   translate()
   pass
 btnA.wasPressed(buttonA_wasPressed)
@@ -42,7 +42,7 @@ def buttonB_wasPressed():
   lcd.fill(0x000000)
   lcd.print('B short "/"', 0, 0, 0xffffff)
   morseovka = morseovka + "/"
-  lcd.print(morseovka, 0, 10, 0xffffff)
+  lcd.print(morseovka, 0, 20, 0xffffff)
   translate()
   pass
 btnB.wasPressed(buttonB_wasPressed)
@@ -53,7 +53,7 @@ def buttonC_wasPressed():
   lcd.fill(0x000000)
   lcd.print('C short "Delete"', 0, 0, 0xffffff)
   morseovka = morseovka[:-1]
-  lcd.print(morseovka, 0, 10, 0xffffff)
+  lcd.print(morseovka, 0, 20, 0xffffff)
   translate()
   pass
 btnC.wasPressed(buttonC_wasPressed)
@@ -65,10 +65,21 @@ def buttonA_pressFor():
   lcd.print('A long "-"', 0, 0, 0xffffff)
   morseovka = morseovka[:-1]
   morseovka = morseovka + "-";
-  lcd.print(morseovka, 0, 10, 0xffffff)
+  lcd.print(morseovka, 0, 20, 0xffffff)
   translate()
   pass
 btnA.pressFor(0.5, buttonA_pressFor)
+
+def buttonC_pressFor():
+  # global params
+  global morseovka
+  lcd.fill(0x000000)
+  lcd.print('C long "DELETE ALL"', 0, 0, 0xffffff)
+  morseovka = ""
+  lcd.print(morseovka, 0, 20, 0xffffff)
+  translate()
+  pass
+btnC.pressFor(0.5, buttonC_pressFor)
 
 def translate():
   global morseovka
@@ -82,4 +93,17 @@ def translate():
       else:
         morseovka_translated = "SYNTAX ERROR"
     morseovka_translated = morseovka_translated + " "
-  lcd.print(morseovka_translated, 0, 20, 0xffffff)
+  lcd.print(morseovka_translated, 0, 40, 0xffffff)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
