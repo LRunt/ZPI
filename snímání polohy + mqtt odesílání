@@ -1,0 +1,45 @@
+from m5stack import *
+from m5stack_ui import *
+from uiflow import *
+from m5mqtt import M5mqtt
+import imu
+
+
+screen = M5Screen()
+screen.clean_screen()
+screen.set_screen_bg_color(0xFFFFFF)
+
+
+m5mqtt = M5mqtt('iot', 'test.mosquitto.org', 1883, '', '', 300)
+m5mqtt.start()
+while True:
+  X = round(imu0.acceleration[0])
+  Y = round(imu0.acceleration[1])
+  Z = round(imu0.acceleration[2])
+  state = X*1+Y*2+Z*4
+  if state < 0:
+    lcd.fill(0xff00ff)
+  if state == 0:
+    lcd.fill(0xffffff)
+  elif state == 1:
+    lcd.fill(0x000000)
+  elif state == 2:
+    lcd.fill(0x33cc00)
+  elif state == 3:
+    lcd.fill(0xffcc00)
+  elif state == 4:
+    lcd.fill(0x3366ff)
+  elif state == 5:
+    lcd.fill(0xcc33cc)
+  elif state == 6:
+    lcd.fill(0xff6600)
+  elif state == 7:
+    lcd.fill(0x660000)
+  m5mqtt.publish(str('Location'), str(state), 0)
+  wait_ms(2)
+  
+  
+  
+  
+  
+  
