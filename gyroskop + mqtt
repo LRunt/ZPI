@@ -1,0 +1,35 @@
+from m5stack import *
+from m5stack_ui import *
+from uiflow import *
+from m5mqtt import M5mqtt
+import imu
+import math
+
+
+screen = M5Screen()
+screen.clean_screen()
+screen.set_screen_bg_color(0xFFFFFF)
+
+
+X = None
+
+imu0 = imu.IMU()
+
+
+lcd.fill(0xffffff)
+
+m5mqtt = M5mqtt('iot', 'test.mosquitto.org', 1883, '', '', 300)
+m5mqtt.start()
+while True:
+  X = round(imu0.gyro[0])
+  Y = round(imu0.gyro[1])
+  Z = round(imu0.gyro[2])
+  
+  movement = math.sqrt(X * X + Y * Y + Z * Z)
+  if movement > 100:
+    speaker.playTone(220, 1)
+  m5mqtt.publish(str('Movement'), str(movement), 0)
+  m5mqtt.publish(str('X'), str(X), 0)
+  m5mqtt.publish(str('Y'), str(Y), 0)
+  m5mqtt.publish(str('Z'), str(Z), 0)
+  wait_ms(2)
