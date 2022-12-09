@@ -1,0 +1,52 @@
+from m5stack import *
+from m5stack_ui import *
+from uiflow import *
+import imu
+import math
+
+
+screen = M5Screen()
+screen.clean_screen()
+screen.set_screen_bg_color(0xFFFFFF)
+
+imu0 = imu.IMU()
+
+lcd.fill(0x33ffff)
+lcd.triangle(165, 110, 115, 160, 215, 160, fillcolor=0x009900)
+lcd.triangle(165, 110, 115, 160, 215, 160, color=0x009900)
+lcd.triangle(165, 80, 115, 130, 215, 130, fillcolor=0x009900)
+lcd.triangle(165, 80, 115, 130, 215, 130, color=0x009900)
+lcd.triangle(165, 50, 115, 100, 215, 100, fillcolor=0x009900)
+lcd.triangle(165, 50, 115, 100, 215, 100, color=0x009900)
+lcd.rect(150, 160, 30, 30, fillcolor=0x993300)
+lcd.rect(150, 160, 30, 30, color=0x993300)
+lcd.rect(0, 190, 320, 50, fillcolor=0xffffff)
+lcd.rect(0, 190, 320, 50, color=0xffffff)
+
+while True:
+  X = round(imu0.gyro[0])
+  Y = round(imu0.gyro[1])
+  Z = round(imu0.gyro[2])
+  
+  movement = math.sqrt(X * X + Y * Y + Z * Z)
+  if movement > 300:
+    for y in range(10):
+      speaker.playTone((y + 1) * 30, 1)
+      for x in range(10):
+        mod = y % 2
+        lcd.circle((x + 1) * 50 + (mod * 10), (y + 1) * 20, 2, fillcolor=0xffffff)
+        lcd.circle((x + 1) * 50 + (mod * 10), (y + 1) * 20, 2, color=0xffffff)
+    wait_ms(1000)
+    lcd.fill(0x33ffff)
+    lcd.triangle(165, 110, 115, 160, 215, 160, fillcolor=0x009900)
+    lcd.triangle(165, 110, 115, 160, 215, 160, color=0x009900)
+    lcd.triangle(165, 80, 115, 130, 215, 130, fillcolor=0x009900)
+    lcd.triangle(165, 80, 115, 130, 215, 130, color=0x009900)
+    lcd.triangle(165, 50, 115, 100, 215, 100, fillcolor=0x009900)
+    lcd.triangle(165, 50, 115, 100, 215, 100, color=0x009900)
+    lcd.rect(150, 160, 30, 30, fillcolor=0x993300)
+    lcd.rect(150, 160, 30, 30, color=0x993300)
+    lcd.rect(0, 190, 320, 50, fillcolor=0xffffff)
+    lcd.rect(0, 190, 320, 50, color=0xffffff)
+  
+  wait_ms(100)
